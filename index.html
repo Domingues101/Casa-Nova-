@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chá de Casa Nova · Izabela & Guilherme</title>
+  
+  <link rel="preconnect" href="https://fontogleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bambu: '#c9a97c',
+            'bambu-dark': '#a88659',
+            'bambu-light': '#f7f3ed',
+            inox: '#8a8d90',
+            'warm-gray': '#f2f0eb',
+            'dark-slate': '#222426',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fcfbfa;
+      color: #222426;
+      overflow-x: hidden;
+    }
+
+    /* Lock body scroll when cover is open */
+    body.locked {
+      overflow: hidden;
+    }
+
+    .font-serif-title {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Subtle Glassmorphism */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(201, 169, 124, 0.2);
+    }
+
+    .glass-modal {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+    }
+
+    /* Custom Scrollbar for filter tags */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Cover Animation */
+    @keyframes bounceSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+    .animate-bounce-slow {
+      animation: bounceSlow 2s infinite;
+    }
+
+    /* Fade Transition */
+    .fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="locked bg-[#fcfbfa] text-dark-slate min-h-screen selection:bg-bambu/30 selection:text-dark-slate">
+
+  <!-- CAPA INICIAL (COVER) -->
+  <section class="fixed inset-0 z-50 flex flex-col items-center justify-between p-6 sm:p-12 transition-all duration-700 ease-in-out" id="cover" aria-label="Capa do Convite">
+    <!-- Overlay Gradient & Background Image -->
+    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105" 
+         style="background-image: url('img/ft\ inicial.jpeg');">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
+
+    <!-- Top Spacer -->
+    <div class="relative z-10 pt-6">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs tracking-widest uppercase font-medium border border-white/20">
+        Você está convidado
+      </span>
+    </div>
+
+    <!-- Center Text -->
+    <div class="relative z-10 text-center text-white max-w-lg mx-auto px-4">
+      <p class="text-bambu font-serif-title italic text-2xl sm:text-3xl tracking-wide mb-1">⌂ CHÁ DE</p>
+      <h1 class="text-5xl sm:text-7xl font-serif-title font-normal tracking-tight text-white mb-3">Casa Nova</h1>
+      <div class="w-12 h-[1px] bg-bambu mx-auto my-4 opacity-80"></div>
+      <p class="names text-2xl sm:text-3xl font-serif-title tracking-wider text-white/90">Izabela &amp; Guilherme</p>
+    </div>
+
+    <!-- Unlock Arrow Button -->
+    <div class="relative z-10 pb-8 text-center">
+      <button class="arrow group flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 focus:outline-none" 
+              id="unlock" 
+              type="button" 
+              aria-label="Ver o restante do site" 
+              onclick="unlockSite()">
+        <span class="text-xs tracking-widest uppercase font-light text-white/70 group-hover:text-white transition-colors">Entrar no site</span>
+        <div class="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center bg-white/10 backdrop-blur-md group-hover:bg-bambu group-hover:border-bambu transition-all duration-300 animate-bounce-slow shadow-lg">
+          <svg class="w-6 h-6 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- CONTEÚDO PRINCIPAL DO SITE -->
+  <div class="page hidden min-h-screen flex flex-col" id="site">
+    
+    <!-- HEADER HERO PRINCIPAL -->
+    <header class="hero relative bg-gradient-to-b from-bambu-light/60 to-transparent py-12 px-4 sm:px-6 text-center border-b border-bambu/10">
+      <div class="max-w-2xl mx-auto space-y-3">
+        <p class="eyebrow text-bambu-dark font-serif-title italic text-xl tracking-widest uppercase">⌂ CHÁ DE</p>
+        <h1 class="text-4xl sm:text-5xl font-serif-title font-semibold text-dark-slate tracking-tight">Casa Nova</h1>
+        <div class="flex items-center justify-center gap-3 my-2">
+          <span class="h-[1px] w-12 bg-bambu/40"></span>
+          <span class="text-bambu text-lg" aria-hidden="true">♡</span>
+          <span class="h-[1px] w-12 bg-bambu/40"></span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-serif-title text-dark-slate/90">Izabela &amp; Guilherme</h2>
+        <p class="sub text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
+          Uma nova casa, um novo começo e muitos sonhos para realizar juntos!
+        </p>
+      </div>
+    </header>
+
+    <main class="content flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
+      
+      <!-- BARRA DE BUSCA E FILTROS -->
+      <section class="space-y-6">
+        <div class="text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <h3 class="list-title text-2xl font-serif-title font-semibold text-dark-slate">Sugestões para a nossa casa</h3>
+            <p class="text-xs text-gray-500 mt-1">Escolha um item com carinho para presentear o casal</p>
+          </div>
+          <!-- Counter Badge -->
+          <span id="items-count-badge" class="text-xs bg-bambu-light text-bambu-dark font-medium px-3 py-1.5 rounded-full border border-bambu/20">
+            Carregando itens...
+          </span>
+        </div>
+
+        <div class="filter-container space-y-4">
+          <!-- Campo de Busca -->
+          <div class="relative">
+            <input type="text" 
+                   id="search-input" 
+                   placeholder="Buscar um presente (ex: Panela, Lençol, Air Fryer)..." 
+                   class="w-full pl-11 pr-10 py-3.5 bg-white rounded-2xl border border-gray-200 shadow-sm focus:outline-none focus:border-bambu focus:ring-2 focus:ring-bambu/20 transition-all text-sm text-dark-slate placeholder-gray-400" />
+            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 rounded-full">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Botões de Filtro -->
+          <div class="filter-buttons flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar" id="filter-buttons">
+            <button class="filter-btn active whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-dark-slate text-white shadow-sm" data-category="todos">
+              ✨ Todos
+            </button>
+            <button class="filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200" data-category="cozinha">
+              🍳 Cozinha
+            </button>
+            <button class="filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200" data-category="quarto">
+              🛏️ Quarto
+            </button>
+            <button class="filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200" data-category="sala">
+              🛋️ Sala
+            </button>
+            <button class="filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200" data-category="lavanderia">
+              🧺 Lavanderia
+            </button>
+            <button class="filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200" data-category="eletrodomesticos">
+              ⚡ Eletrodomésticos
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARD DE NOTA/MENSAGEM DE BOAS-VINDAS -->
+      <div class="note bg-bambu-light/80 border border-bambu/30 rounded-2xl p-4 sm:p-5 text-sm leading-relaxed text-dark-slate/90 flex gap-3.5 items-start shadow-sm">
+        <span class="text-2xl shrink-0 mt-0.5">🎁</span>
+        <div>
+          <p class="font-medium text-dark-slate mb-0.5">Preparamos uma lista de sugestões de presentes</p>
+          <p class="text-gray-600 text-xs sm:text-sm">
+            Esta lista é apenas uma sugestão para ajudar quem quiser nos presentear! Fique totalmente à vontade para escolher outro presente ou loja. O mais importante para nós é ter você celebrando esse momento especial conosco. ♥
+          </p>
+        </div>
+      </div>
+
+      <!-- GRID DE PRESENTES -->
+      <section class="list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="lista" aria-label="Lista de presentes">
+        <!-- Inserido dinamicamente via JS -->
+      </section>
+
+      <p class="hint text-center text-xs text-gray-500 italic pt-2">
+        💡 Toque em <strong>“Reservar”</strong> para informar seu nome e preparar a mensagem de confirmação para os anfitriões.
+      </p>
+
+      <!-- INFORMAÇÕES IMPORTANTES E PALETA DE CORES -->
+      <section class="dark bg-dark-slate text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-bambu/10 rounded-full blur-2xl"></div>
+        
+        <div class="border-b border-white/10 pb-4">
+          <h3 class="text-2xl font-serif-title font-medium text-bambu flex items-center gap-2">
+            Uma observação importante ♡
+          </h3>
+          <p class="text-xs text-white/60 mt-1">Dicas úteis para nos ajudar na organização</p>
+        </div>
+
+        <div class="space-y-3 text-sm text-white/80 leading-relaxed font-light">
+          <p>
+            Para ajudar na organização e evitar que dois convidados escolham exatamente o mesmo item, pedimos a gentileza de reservar o item desejado aqui pelo site.
+          </p>
+          <p>
+            Ao clicar no botão <span class="text-bambu font-normal">“Reservar”</span>, você poderá gerar uma mensagem personalizada pronta para nos enviar no WhatsApp. 
+          </p>
+        </div>
+
+        <!-- Sugestão de Cores -->
+        <div class="pt-2">
+          <p class="colors-title text-xs uppercase tracking-widest text-bambu font-semibold mb-3">Sugestão de cores para utensílios &amp; enxoval:</p>
+          <div class="swatches grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="sw flex items-center gap-2.5 bg-white/5 p-2.5 rounded-xl border border-white/10 text-xs">
+              <span class="dot w-4 h-4 rounded-full bg-white border border-gray-300 shadow-sm shrink-0"></span>
+              <span>Branco</span>
+            </div>
+            <div class="sw flex items-center gap-2.5 bg-white/5 p-2.5 rounded-xl border border-white/10 text-xs">
+              <span class="dot w-4 h-4 rounded-full bg-[#c9a97c] shadow-sm shrink-0"></span>
+              <span>Bambu / Palha</span>
+            </div>
+            <div class="sw flex items-center gap-2.5 bg-white/5 p-2.5 rounded-xl border border-white/10 text-xs">
+              <span class="dot w-4 h-4 rounded-full bg-[#8a8d90] shadow-sm shrink-0"></span>
+              <span>Cinza / Inox</span>
+            </div>
+            <div class="sw flex items-center gap-2.5 bg-white/5 p-2.5 rounded-xl border border-white/10 text-xs">
+              <span class="dot w-4 h-4 rounded-full bg-[#222426] border border-white/20 shadow-sm shrink-0"></span>
+              <span>Preto</span>
+            </div>
+          </div>
+          <p class="last text-xs text-white/50 italic mt-3 text-center sm:text-left">
+            * Estas são apenas preferências para harmonizar com a decoração, mas fiquem super à vontade! ♥
+          </p>
+        </div>
+      </section>
+
+      <!-- Assinatura dos Noivos -->
+      <div class="sign text-center py-6 text-xl font-serif-title text-dark-slate italic">
+        Com carinho,<br>
+        <span class="text-2xl font-semibold not-italic text-bambu-dark">Izabela &amp; Guilherme ♡</span>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 border-t border-gray-200/60 py-6 text-center text-xs text-gray-500">
+      <p>Chá de Casa Nova · Izabela &amp; Guilherme · 2026</p>
+    </footer>
+  </div>
+
+  <!-- MODAL DE RESERVA -->
+  <div class="overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+    <div class="modal glass-modal w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/40 transform transition-transform duration-300 scale-95" id="modal-card">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-4">
+        <div>
+          <h4 id="mtitle" class="text-xl font-serif-title font-semibold text-dark-slate">Reservar Presente</h4>
+          <p id="mitem" class="text-xs font-medium text-bambu-dark mt-0.5"></p>
+        </div>
+        <button data-close class="text-gray-400 hover:text-dark-slate p-1 rounded-full transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- ETAPA 1: Nome do Convidado -->
+      <div id="step1" class="space-y-4">
+        <div>
+          <label for="guest" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Seu Nome Completo</label>
+          <input idguest id="guest" type="text" autocomplete="name" placeholder="Ex: Maria Silva" 
+                 class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-bambu focus:ring-2 focus:ring-bambu/20 transition-all text-dark-slate">
+          <p id="guest-error" class="hidden text-xs text-red-500 mt-1">Por favor, digite seu nome para continuar.</p>
+        </div>
+
+        <div class="actions flex gap-2 pt-2">
+          <button class="btn flex-1 py-3 px-4 bg-bambu hover:bg-bambu-dark text-white rounded-xl text-sm font-medium transition-colors shadow-sm focus:outline-none" id="prepare">
+            Preparar Mensagem
+          </button>
+          <button class="btn-ghost py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium transition-colors" data-close>
+            Cancelar
+          </button>
+        </div>
+      </div>
+
+      <!-- ETAPA 2: Mensagem Pronta + WhatsApp -->
+      <div id="step2" class="hidden space-y-4">
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Copie a mensagem abaixo ou clique no botão direto para abrir o WhatsApp e confirmar sua escolha com os anfitriões:
+        </p>
+        
+        <div class="msg bg-warm-gray border border-bambu/20 rounded-xl p-3.5 text-xs text-dark-slate font-mono whitespace-pre-wrap leading-relaxed select-all" id="msgbox"></div>
+
+        <!-- Alert Notification for Copy -->
+        <div id="copy-toast" class="hidden p-2.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-xs text-center font-medium">
+          ✓ Mensagem copiada com sucesso!
+        </div>
+
+        <div class="actions flex flex-col gap-2 pt-1">
+          <button class="btn w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm" id="wa">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Abrir no WhatsApp
+          </button>
+          
+          <div class="flex gap-2">
+            <button class="btn-ghost flex-1 py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-medium transition-colors" id="copy">
+              📋 Copiar Mensagem
+            </button>
+            <button class="btn-ghost py-2.5 px-4 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-xl text-xs font-medium transition-colors" data-close>
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DATA: Lista Completa de Sugestões de Presentes
+    const PRESENTES = [
+      // COZINHA
+      { id: 1, nome: "Jogo de Panelas Antiaderente", categoria: "cozinha", preco: "R$ 350", reservado: false, imagem: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=600&auto=format&fit=crop" },
+      { id: 2, nome: "Conjunto de Pratos Porcelana (6 un)", categoria: "cozinha", preco: "R$ 220", reservado: false, imagem: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=600&auto=format&fit=crop" },
+      { id: 3, nome: "Jogo de Talheres Inox Complete", categoria: "cozinha", preco: "R$ 180", reservado: false, imagem: "https://images.unsplash.com/photo-1590794056226-77ef3a6c4743?q=80&w=600&auto=format&fit=crop" },
+      { id: 4, nome: "Jogo de Copos e Taças de Cristal", categoria: "cozinha", preco: "R$ 150", reservado: false, imagem: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=600&auto=format&fit=crop" },
+      { id: 5, nome: "Kit Utensílios de Silicone com Cabo de Bambu", categoria: "cozinha", preco: "R$ 120", reservado: false, imagem: "https://images.unsplash.com/photo-1590794056226-77ef3a6c4743?q=80&w=600&auto=format&fit=crop" },
+      { id: 6, nome: "Tábua de Corte em Madeira Nobre / Bambu", categoria: "cozinha", preco: "R$ 90", reservado: false, imagem: "https://images.unsplash.com/photo-1590794056226-77ef3a6c4743?q=80&w=600&auto=format&fit=crop" },
+
+      // QUARTO
+      { id: 7, nome: "Jogo de Cama Casal Queen 100% Algodão", categoria: "quarto", preco: "R$ 250", reservado: false, imagem: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=600&auto=format&fit=crop" },
+      { id: 8, nome: "Edredom / Acolchoado Queen Neutro", categoria: "quarto", preco: "R$ 280", reservado: false, imagem: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600&auto=format&fit=crop" },
+      { id: 9, nome: "Par de Travesseiros Toque de Pluma", categoria: "quarto", preco: "R$ 160", reservado: false, imagem: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?q=80&w=600&auto=format&fit=crop" },
+      { id: 10, nome: "Aparelho Aromatizador / Difusor de Ambientes", categoria: "quarto", preco: "R$ 110", reservado: false, imagem: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop" },
+
+      // SALA
+      { id: 11, nome: "Manta Decorativa para Sofá em Algodão", categoria: "sala", preco: "R$ 130", reservado: false, imagem: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=600&auto=format&fit=crop" },
+      { id: 12, nome: "Jogo de Almofadas Minimalistas (4 un)", categoria: "sala", preco: "R$ 140", reservado: false, imagem: "https://images.unsplash.com/photo-1579656381226-5fc0f0100c3b?q=80&w=600&auto=format&fit=crop" },
+      { id: 13, nome: "Vaso Decorativo de Cerâmica", categoria: "sala", preco: "R$ 95", reservado: false, imagem: "https://images.unsplash.com/photo-1612196808214-b7e239e5f6b7?q=80&w=600&auto=format&fit=crop" },
+      { id: 14, nome: "Quadro Decorativo Abstrato", categoria: "sala", preco: "R$ 190", reservado: false, imagem: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=600&auto=format&fit=crop" },
+
+      // LAVANDERIA
+      { id: 15, nome: "Jogo de Toalhas de Banho e Rosto (5 Peças)", categoria: "lavanderia", preco: "R$ 210", reservado: false, imagem: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?q=80&w=600&auto=format&fit=crop" },
+      { id: 16, nome: "Cesto de Roupa Suja em Bambu / Tecido", categoria: "lavanderia", preco: "R$ 120", reservado: false, imagem: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=600&auto=format&fit=crop" },
+      { id: 17, nome: "Kits de Organizadores de Gaveta / Armário", categoria: "lavanderia", preco: "R$ 85", reservado: false, imagem: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=600&auto=format&fit=crop" },
+
+      // ELETRODOMÉSTICOS
+      { id: 18, nome: "Fritadeira Elétrica Air Fryer", categoria: "eletrodomesticos", preco: "R$ 420", reservado: false, imagem: "https://images.unsplash.com/photo-1585515320310-259814833e62?q=80&w=600&auto=format&fit=crop" },
+      { id: 19, nome: "Cafeteira Elétrica Programável", categoria: "eletrodomesticos", preco: "R$ 230", reservado: false, imagem: "https://images.unsplash.com/photo-1517668808822-9ed02810a0e9?q=80&w=600&auto=format&fit=crop" },
+      { id: 20, nome: "Liquidificador de Alta Potência Inox", categoria: "eletrodomesticos", preco: "R$ 260", reservado: false, imagem: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?q=80&w=600&auto=format&fit=crop" },
+      { id: 21, nome: "Torradeira Inox Retro", categoria: "eletrodomesticos", preco: "R$ 180", reservado: false, imagem: "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?q=80&w=600&auto=format&fit=crop" },
+    ];
+
+    // Número do WhatsApp dos anfitriões (Exemplo)
+    const WHATSAPP_NUMERO = "55 34 9132-1520"; 
+
+    // Estado da Aplicação
+    let currentCategory = 'todos';
+    let searchQuery = '';
+    let selectedItem = null;
+
+    // Elementos DOM
+    const coverEl = document.getElementById('cover');
+    const siteEl = document.getElementById('site');
+    const listaEl = document.getElementById('lista');
+    const searchInput = document.getElementById('search-input');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const filterButtonsContainer = document.getElementById('filter-buttons');
+    const countBadge = document.getElementById('items-count-badge');
+
+    // Modal DOM
+    const overlayEl = document.getElementById('overlay');
+    const modalCardEl = document.getElementById('modal-card');
+    const mItemEl = document.getElementById('mitem');
+    const guestInput = document.getElementById('guest');
+    const guestError = document.getElementById('guest-error');
+    const step1El = document.getElementById('step1');
+    const step2El = document.getElementById('step2');
+    const msgBoxEl = document.getElementById('msgbox');
+    const prepareBtn = document.getElementById('prepare');
+    const copyBtn = document.getElementById('copy');
+    const waBtn = document.getElementById('wa');
+    const copyToast = document.getElementById('copy-toast');
+
+    // --- FUNÇÕES DE NAVEGAÇÃO DA CAPA ---
+    function unlockSite() {
+      coverEl.classList.add('opacity-0', '-translate-y-full');
+      setTimeout(() => {
+        coverEl.style.display = 'none';
+        siteEl.classList.remove('hidden');
+        document.body.classList.remove('locked');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 600);
+    }
+
+    // --- RENDERIZAR LISTA DE PRESENTES ---
+    function renderGifts() {
+      listaEl.innerHTML = '';
+
+      const filtered = PRESENTES.filter(item => {
+        const matchesCategory = currentCategory === 'todos' || item.categoria === currentCategory;
+        const matchesSearch = item.nome.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      // Atualiza Badge de Contagem
+      countBadge.textContent = `${filtered.length} ${filtered.length === 1 ? 'item encontrado' : 'itens encontrados'}`;
+
+      if (filtered.length === 0) {
+        listaEl.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-dashed border-gray-200">
+            <span class="text-3xl block mb-2">🔍</span>
+            <p class="text-sm font-medium text-gray-700">Nenhum presente encontrado.</p>
+            <p class="text-xs text-gray-400 mt-1">Tente buscar por outro termo ou mude o filtro.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `fade-in glass-card rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 flex flex-col justify-between ${item.reservado ? 'opacity-70 bg-gray-50' : ''}`;
+
+        // Badge de Categoria Formatado
+        const catName = getCategoryName(item.categoria);
+
+        card.innerHTML = `
+          <div>
+            <!-- Imagem do Presente -->
+            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+              <img src="${item.imagem}" 
+                   alt="${item.nome}" 
+                   class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                   onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop'" />
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-dark-slate text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full shadow-sm">
+                ${catName}
+              </span>
+              ${item.preco ? `
+                <span class="absolute bottom-3 right-3 bg-dark-slate/80 text-white backdrop-blur-md text-xs font-medium px-2.5 py-1 rounded-lg">
+                  Sugestão: ${item.preco}
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- Detalhes -->
+            <div class="p-4 space-y-1">
+              <h4 class="font-serif-title font-semibold text-lg text-dark-slate leading-snug">${item.nome}</h4>
+              <p class="text-xs text-gray-500">Chá de Casa Nova · Izabela &amp; Guilherme</p>
+            </div>
+          </div>
+
+          <!-- Botão de Ação -->
+          <div class="p-4 pt-0">
+            ${item.reservado ? `
+              <button disabled class="w-full py-2.5 px-4 bg-gray-200 text-gray-500 rounded-xl text-xs font-medium cursor-not-allowed flex items-center justify-center gap-1.5">
+                <span>✓</span> Reservado
+              </button>
+            ` : `
+              <button onclick="openReserveModal(${item.id})" class="w-full py-2.5 px-4 bg-bambu hover:bg-bambu-dark text-white rounded-xl text-xs font-medium transition-colors shadow-sm flex items-center justify-center gap-1.5 group">
+                <span>🎁</span> Reservar Presente
+              </button>
+            `}
+          </div>
+        `;
+
+        listaEl.appendChild(card);
+      });
+    }
+
+    function getCategoryName(cat) {
+      const names = {
+        cozinha: '🍳 Cozinha',
+        quarto: '🛏️ Quarto',
+        sala: '🛋️ Sala',
+        lavanderia: '🧺 Lavanderia',
+        eletrodomesticos: '⚡ Eletro'
+      };
+      return names[cat] || 'Geral';
+    }
+
+    // --- FILTROS E BUSCA EVENT LISTENERS ---
+    filterButtonsContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+
+      // Update Active Class
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.className = 'filter-btn whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-gray-600 hover:bg-gray-50 border border-gray-200';
+      });
+
+      btn.className = 'filter-btn active whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 bg-dark-slate text-white shadow-sm';
+
+      currentCategory = btn.getAttribute('data-category');
+      renderGifts();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      clearSearchBtn.classList.toggle('hidden', searchQuery === '');
+      renderGifts();
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      renderGifts();
+    });
+
+    // --- MODAL DE RESERVA LOGIC ---
+    function openReserveModal(id) {
+      selectedItem = PRESENTES.find(p => p.id === id);
+      if (!selectedItem) return;
+
+      mItemEl.textContent = `Item: ${selectedItem.nome}`;
+      guestInput.value = '';
+      guestError.classList.add('hidden');
+      copyToast.classList.add('hidden');
+
+      // Reset Modal Steps
+      step1El.classList.remove('hidden');
+      step2El.classList.add('hidden');
+
+      // Show Overlay
+      overlayEl.classList.remove('hidden');
+      setTimeout(() => {
+        overlayEl.classList.remove('opacity-0');
+        modalCardEl.classList.remove('scale-95');
+        modalCardEl.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      overlayEl.classList.add('opacity-0');
+      modalCardEl.classList.remove('scale-100');
+      modalCardEl.classList.add('scale-95');
+      setTimeout(() => {
+        overlayEl.classList.add('hidden');
+      }, 300);
+    }
+
+    // Close Modal Event Listeners
+    document.querySelectorAll('[data-close]').forEach(btn => {
+      btn.addEventListener('click', closeModal);
+    });
+
+    overlayEl.addEventListener('click', (e) => {
+      if (e.target === overlayEl) closeModal();
+    });
+
+    // Etapa 1 -> Etapa 2 (Preparar Mensagem)
+    prepareBtn.addEventListener('click', () => {
+      const guestName = guestInput.value.trim();
+      if (!guestName) {
+        guestError.classList.remove('hidden');
+        guestInput.focus();
+        return;
+      }
+
+      guestError.classList.add('hidden');
+
+      // Gerar Mensagem Pré-Formatada
+      const mensagem = `Olá Izabela e Guilherme! 👋\n\nEu (${guestName}) gostaria de reservar o presente abaixo para o Chá de Casa Nova de vocês:\n\n🎁 *${selectedItem.nome}*\n\nMal posso esperar para celebrar este momento com vocês! ♥`;
+
+      msgBoxEl.textContent = mensagem;
+
+      step1El.classList.add('hidden');
+      step2El.classList.remove('hidden');
+
+      // Marca o item como reservado temporariamente no front
+      selectedItem.reservado = true;
+      renderGifts();
+    });
+
+    // Copiar Mensagem para Clipboard
+    copyBtn.addEventListener('click', () => {
+      const textToCopy = msgBoxEl.textContent;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(showToast).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+
+      function fallbackCopy() {
+        const textarea = document.createElement('textarea');
+        textarea.value = textToCopy;
+        textarea.style.position = 'fixed';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          showToast();
+        } catch (err) {
+          console.error('Erro ao copiar', err);
+        }
+        document.body.removeChild(textarea);
+      }
+
+      function showToast() {
+        copyToast.classList.remove('hidden');
+        setTimeout(() => copyToast.classList.add('hidden'), 3000);
+      }
+    });
+
+    // Abrir WhatsApp com a mensagem
+    waBtn.addEventListener('click', () => {
+      const text = encodeURIComponent(msgBoxEl.textContent);
+      const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${text}`;
+      window.open(url, '_blank');
+    });
+
+    // Inicializar Renderização ao Carregar
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGifts();
+    });
+  </script>
+</body>
+</html>
+```
+
+### O que este site contém:
+1. **Capa Elegante (Hero Screen):** Apresentação visual com botão de transição para "desbloquear" o site com animação fluida.
+2. **Barra de Pesquisa Instantânea:** Filtra presentes digitados pelo convidado em tempo real.
+3. **Botões de Filtro:**
+   - ✨ **Todos**
+   - 🍳 **Cozinha**
+   - 🛏️ **Quarto**
+   - 🛋️ **Sala**
+   - 🧺 **Lavanderia**
+   - ⚡ **Eletrodomésticos**
+4. **Cards Interativos de Presentes:** Com fotos modernas, tags de categoria, preço sugerido e botão de **Reservar**.
+5. **Modal Inteligente de Reserva:**
+   - **Etapa 1:** Solicita o nome do convidado.
+   - **Etapa 2:** Gera uma mensagem pronta e disponibiliza os botões de **Copiar Mensagem** e **Abrir no WhatsApp**.
+6. **Sessão Informativa:** Dicas de organização e paleta de cores sugeridas para os utensílios.
+7. **Design Responsivo & Paleta Harmoniosa:** Utiliza tons nobres de **Bambu, Cinza Inox, Preto e Branco**.
